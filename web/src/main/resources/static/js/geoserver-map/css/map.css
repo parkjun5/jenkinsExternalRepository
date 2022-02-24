@@ -1,0 +1,44 @@
+.custom-map-button .tool-tip-text {
+    visibility: hidden;
+    width: 200px;
+    background-color:#426581;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 8px;
+    position: absolute;
+    z-index: 1;
+    bottom: -100%;
+    left: 50%;
+    font-size: small;
+    margin-left: -10em;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.custom-map-button .tool-tip-text::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #426581 transparent transparent transparent;
+}
+
+.custom-map-button:hover .tool-tip-text {
+    visibility: visible;
+    opacity: 1;
+}
+
+.map { position: fixed; top: 0; left: 0; bottom: 0; right: 0; }
+.ol-control button { float: left; }
+.custom-map-control { top: 5em; left: 1em; }
+.dateRangeStyle {font-size: smaller;}
+.white-background { background: white; width: 50em !important; }
+
+.mapSpinner { width: 100%; height: 100%; top: 0; left: 0; display: none; opacity: .6; background: silver; position: absolute; z-index: 2; }
+.mapSpinner div { width: 100%; height: 100%; display: table; }
+.mapSpinner span { display: table-cell; text-align: center; vertical-align: middle; }
+.mapSpinner img { background: white; padding: 1em; border-radius: .7em; }

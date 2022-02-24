@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorate="~{adminLTE/layout/frameFixedLayout}">
+<head>
+    <title>Sample</title>
+
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" th:href="@{vendor/overlayScrollbars/css/OverlayScrollbars.min.css}">
+    <!-- summernote -->
+    <link rel="stylesheet" th:href="@{vendor/summernote/summernote-bs4.min.css}">
+    <script src="https://unpkg.com/deck.gl@^8.0.0/dist.min.js"></script>
+    <!-- or -->
+    <script src="https://unpkg.com/@deck.gl/core@^8.0.0/dist.minmin.js"></script>
+    <script src="https://unpkg.com/@deck.gl/layers@^8.0.0/dist.min.js"></script>
+    <!-- optional if mapbox base map is needed -->
+    <script src='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.js'></script>
+    <link href='https://api.tiles.mapbox.com/mapbox-gl-js/v0.53.0/mapbox-gl.css' rel='stylesheet' />
+
+    <style>
+        #container {width: 100vw; height: 100vh;}
+    </style>
+</head>
+<body>
+
+<th:block layout:fragment="bodyContentHeader">
+    <div class="row mb-2">
+        <div class="col-sm-6">
+            <h1 class="m-0">Dashboard</h1>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active">Dashboard v1</li>
+            </ol>
+        </div><!-- /.col -->
+    </div>
+</th:block>
+
+<th:block layout:fragment="bodyContent">
+    <div id="app"></div>
+    <div>
+        <button id="slideValue" class="">slide button</button>
+    </div>
+</th:block>
+
+<th:block layout:fragment="pageCustomScript">
+    <script th:src="@{/vendor/open-layers/js/ol.js}"></script>
+    <link rel="stylesheet" th:href="@{vendor/open-layers/css/ol.css}">
+    <script th:inline="javascript">
+
+/*
+ * https://deck.gl/docs/api-reference/layers/point-cloud-layer
+ */      const resultList = [[ ${resultList }]];
+
+        const {DeckGL, PointCloudLayer, COORDINATE_SYSTEM} = deck;
+
+        const layer = new PointCloudLayer({
+            id: 'PointCloudLayer',
+            data: resultList,
+
+            /* props from PointCloudLayer class */
+
+            getColor: d => d.color,
+            getNormal: d => d.normal,
+            getPosition: d => d.position,
+            // material: true,
+            pointSize: 5,
+            sizeUnits: 'pixels',
+
+            /* props inherited from Layer class */
+
+            // autoHighlight: false,
+            coordinateOrigin: [123, 34.74],
+            coordinateSystem: COORDINATE_SYSTEM.DEFAULT,
+            // highlightColor: [0, 0, 128, 128],
+            // modelMatrix: null,
+            opacity: 0.1,
+            pickable: false,
+            // visible: true,
+            // wrapLongitude: false,
+        });
+
+        new DeckGL({
+            mapStyle: 'https://basemaps.cartocdn.com/gl/positron-gl-style/style.json',
+            initialViewState: {
+                longitude: 126,
+                latitude: 37.74,
+                zoom: 11,
+                maxZoom: 20,
+                maxPitch: 60,
+                bearing: 0
+            },
+            controller: true,
+            getTooltip: ({object}) => object && object.position.join(', '),
+            layers: layer
+        });
+
+    </script>
+
+    <script th:src="@{/vendor/jquery-ui/jquery-ui.min.js}"></script>
+
+    <script th:src="@{/vendor/chart.js/Chart.min.js}"></script>
+
+</th:block>
+
+<th:block layout:fragment="pageCustomCss">
+
+</th:block>
+
+</body>
+</html>

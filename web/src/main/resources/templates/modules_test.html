@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorate="~{adminLTE/layout/frameFixedLayout}">
+<head>
+    <title>Sample</title>
+
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" th:href="@{vendor/overlayScrollbars/css/OverlayScrollbars.min.css}">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" th:href="@{vendor/daterangepicker/daterangepicker.css}">
+    <!-- summernote -->
+    <link rel="stylesheet" th:href="@{vendor/summernote/summernote-bs4.min.css}">
+</head>
+<body>
+
+<th:block layout:fragment="bodyContentHeader">
+    <div class="row mb-2">
+        <div class="col-sm-6">
+            <h1 class="m-0">Dashboard</h1>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active">Dashboard v1</li>
+            </ol>
+        </div><!-- /.col -->
+    </div>
+</th:block>
+
+<th:block layout:fragment="bodyContent">
+    <h2 id="temp"> Modules Test </h2>
+
+</th:block>
+
+<th:block layout:fragment="pageCustomScript">
+
+<!--    <script type="module" th:src="@{/js/modules/main.js}"></script>-->
+    <!-- jQuery UI 1.11.4 -->
+    <script type="module">
+        import {sayHi} from '../static/js/modules/sayHi.js';
+
+        document.body.innerHTML = sayHi('John');
+    </script>
+
+    <script th:src="@{/vendor/jquery-ui/jquery-ui.min.js}"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+        $.widget.bridge('uibutton', $.ui.button)
+    </script>
+    <!-- ChartJS -->
+    <script th:src="@{/vendor/chart.js/Chart.min.js}"></script>
+    <!-- Sparkline -->
+    <script th:src="@{/vendor/sparklines/sparkline.js}"></script>
+    <!-- JQVMap -->
+    <script th:src="@{/vendor/jqvmap/jquery.vmap.min.js}"></script>
+    <script th:src="@{/vendor/jqvmap/maps/jquery.vmap.usa.js}"></script>
+    <!-- jQuery Knob Chart -->
+    <script th:src="@{/vendor/jquery-knob/jquery.knob.min.js}"></script>
+    <!-- daterangepicker -->
+    <script th:src="@{/vendor/moment/moment.min.js}"></script>
+    <script th:src="@{/vendor/daterangepicker/daterangepicker.js}"></script>
+    <!-- Tempusdominus Bootstrap 4 -->
+    <script th:src="@{/vendor/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js}"></script>
+    <!-- Summernote -->
+    <script th:src="@{/vendor/summernote/summernote-bs4.min.js}"></script>
+    <!-- overlayScrollbars -->
+    <script th:src="@{/vendor/overlayScrollbars/js/jquery.overlayScrollbars.min.js}"></script>
+    <!-- AdminLTE for demo purposes -->
+    <script th:src="@{/vendor/admin-lte/js/demo.js}"></script>
+    <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+    <script th:src="@{/vendor/admin-lte/js/pages/dashboard.js}"></script>
+
+    <script>
+        $(document).ready(function () {
+            // doSome
+        })
+    </script>
+</th:block>
+
+<th:block layout:fragment="pageCustomCss">
+
+</th:block>
+
+</body>
+</html>

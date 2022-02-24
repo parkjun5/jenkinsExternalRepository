@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout"
+      layout:decorate="~{adminLTE/layout/frameFixedLayout}">
+<head>
+    <title>Sample</title>
+
+    <!-- overlayScrollbars -->
+    <link rel="stylesheet" th:href="@{vendor/overlayScrollbars/css/OverlayScrollbars.min.css}">
+    <!-- Daterange picker -->
+    <link rel="stylesheet" th:href="@{vendor/daterangepicker/daterangepicker.css}">
+    <!-- summernote -->
+    <link rel="stylesheet" th:href="@{vendor/summernote/summernote-bs4.min.css}">
+<!--    <script src="https://cesium.com/downloads/cesiumjs/releases/1.89/Build/Cesium/Cesium.js"></script>-->
+<!--    <link href="https://cesium.com/downloads/cesiumjs/releases/1.89/Build/Cesium/Widgets/widgets.css" rel="stylesheet">-->
+</head>
+<body>
+
+<th:block layout:fragment="bodyContentHeader">
+    <div class="row mb-2">
+        <div class="col-sm-6">
+            <h1 class="m-0">Dashboard</h1>
+        </div><!-- /.col -->
+        <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="#">Home</a></li>
+                <li class="breadcrumb-item active">Dashboard v1</li>
+            </ol>
+        </div><!-- /.col -->
+    </div>
+</th:block>
+
+<th:block layout:fragment="bodyContent">
+    <script type="text/javascript" src="http://map.vworld.kr/js/webglMapInit.js.do?version=2.0&apiKey=4DD90347-8D69-3232-9683-8691BAB0AFFC&domain=http://localhost:11000/"></script>
+
+    <div id="vmap" class="map"></div>
+    <script th:inline="javascript">
+        var mapOptions = new vw.MapOptions(
+            vw.BasemapType.GRAPHIC,
+            "",
+            "vw.DensityType.EMPTY",
+            "vw.DensityType.EMPTY",
+            false,
+            new vw.CameraPosition(
+                new vw.CoordZ(127.425, 38.196, 13487000),
+                new vw.Direction(-90, 0, 0)
+            ),
+            new vw.CameraPosition(
+                new vw.CoordZ(127.425, 38.196, 1548700),
+                new vw.Direction(0, -90, 0)
+            )
+        );
+
+        var map3d = new vw.Map( "vmap" , mapOptions );
+
+
+
+        function vwRegularShapez(resultJSONList) {
+            const red = new vw.Color(255,0,0, 1);
+            const orange = new vw.Color(255,110,26, 1);
+            const green = new vw.Color(0, 255, 0, 1);
+            const blue = new vw.Color(255, 255, 255, 1);
+            const none = new vw.Color(0,0,0, 0);
+
+            for (let data in resultJSONList) {
+                const dataPoint = resultJSONList[data];
+                let color = none;
+                const coordinate = new vw.CoordZ(dataPoint.longitude, dataPoint.latitude, 50);
+                let regularshape = new vw.geom.RegularShapeZ(coordinate, 1000, 4);
+                    if( dataPoint.value > 25) {
+                        color = red;
+                    } else if( dataPoint.value > 20) {
+                        color = blue;
+                    }else if( dataPoint.value > 15) {
+                        color = green;
+                    }
+                regularshape.setFillColor(color);
+                regularshape.setOutLineVisible( false );
+                regularshape.setLength(dataPoint.height );
+                regularshape.create();
+            }
+        }
+
+        const resultJSONList = [[ ${resultJSONList }]];
+        window.onload= function () {
+            vwRegularShapez(resultJSONList);
+        }
+
+    </script>
+</th:block>
+
+<th:block layout:fragment="pageCustomScript">
+<!--    <script th:src="@{/vendor/open-layers/js/ol.js}"></script>-->
+<!--    <script th:src="@{/js/geoserver-map/js/map.js}"></script>-->
+    <!-- jQuery UI 1.11.4 -->
+    <script th:src="@{/vendor/jquery-ui/jquery-ui.min.js}"></script>
+    <!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+    <script>
+        $.widget.bridge('uibutton', $.ui.button)
+    </script>
+    <!-- ChartJS -->
+    <script th:src="@{/vendor/chart.js/Chart.min.js}"></script>
+    <!-- Sparkline -->
+
+
+    <script>
+        // Your access token can be found at: https://cesium.com/ion/tokens.
+        // Replace `your_access_token` with your Cesium ion access token.
+
+        // Cesium.Ion.defaultAccessToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiJiMjUxNDEzOC1iZjcxLTRmMGMtYjU1OC04MWRmOGIxMzFjOWYiLCJpZCI6ODA5NzgsImlhdCI6MTY0MzM1MTA2M30.Sd43Y8Xnq5zziM7aAs4lPAySuE_ME--yy7zIA5NHbTU';
+        //
+        // // Initialize the Cesium Viewer in the HTML element with the `cesiumContainer` ID.
+        // const viewer = new Cesium.Viewer('cesiumContainer', {
+        //     terrainProvider: Cesium.createWorldTerrain()
+        // });
+        // const resultJSONList = [[${resultJSONList}]];
+
+        // Create a point for each.
+        // for (let data in resultJSONList) {
+        //     const dataPoint = resultJSONList[data];
+        //     let color = Cesium.Color.TRANSPARENT;
+        //     if( dataPoint.value > 20) {
+        //         color = Cesium.Color.ORANGE.withAlpha(0.5);
+        //     } else if (dataPoint.value > 15) {
+        //         color = Cesium.Color.WHITE.withAlpha(0.3);
+        //     } else if (dataPoint.value > 10) {
+        //         color = Cesium.Color.ORANGE.withAlpha(0.2);
+        //     } else {
+        //         color = Cesium.Color.TRANSPARENT;
+        //     }
+        //     viewer.entities.add({
+        //         name: "바람장 데이터",
+        //         value : `위도 : ${dataPoint.longitude}\n경도 : ${dataPoint.latitude}\n고도 : ${dataPoint.height}\n값 : ${dataPoint.value}`,
+        //         description: `Location: (${dataPoint.longitude}, ${dataPoint.latitude}, ${dataPoint.height})`,
+        //         position: Cesium.Cartesian3.fromDegrees(dataPoint.longitude, dataPoint.latitude, dataPoint.height),
+        //         box: {
+        //             dimensions: new Cesium.Cartesian3(1025.0, 1025.0, 50.0),
+        //             material: color,
+        //         },
+        //     });
+        // }
+        // var tileset = viewer.scene.primitives.add(
+        //     new Cesium.Cesium3DTileset({
+        //         url: Cesium.IonResource.fromAssetId(816907),
+        //     })
+        // );
+
+        // viewer.selectedEntityChanged.addEventListener(function(selectedEntity) {
+        //     if (Cesium.defined(selectedEntity)) {
+        //         if (Cesium.defined(selectedEntity.name)) {
+        //             alert(selectedEntity.value);
+        //         } else {
+        //             console.log('Unknown entity selected.');
+        //         }
+        //     } else {
+        //         console.log('Deselected.');
+        //     }
+        // });
+        // viewer.zoomTo(viewer.entities);
+
+    </script>
+</th:block>
+
+<th:block layout:fragment="pageCustomCss">
+    <link rel="stylesheet" th:href="@{vendor/open-layers/css/ol.css}">
+    <link rel="stylesheet" th:href="@{/js/geoserver-map/css/map.css}">
+</th:block>
+
+</body>
+</html>
