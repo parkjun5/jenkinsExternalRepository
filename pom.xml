@@ -10,7 +10,7 @@
 
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.example</groupId>
-    <artifactId>jenkinsExternalRepository</artifactId>
+    <artifactId>jenkins-external-repo-test</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>jenkinsExternalRepository</name>
     <description>jenkinsExternalRepository</description>
@@ -28,6 +28,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
         </dependency>
 
         <dependency>
